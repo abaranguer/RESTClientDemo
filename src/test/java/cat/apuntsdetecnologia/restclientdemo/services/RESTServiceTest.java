@@ -41,10 +41,30 @@ public class RESTServiceTest {
 		address.setStreet("myStreet");
 		address.setZipCode("myZipCode");
 
-		Address addressToUpper = restService.toupper(address);
+		Address addressToUpper = restService.toUpper(address);
 
 		assertThat(addressToUpper).isNotNull();
 		assertThat(addressToUpper.getPerson().getFirstName()).matches("ALBERT");
+	}
+	
+	@Test
+	public void toUpperWithErrorTest() {
+		Address address = new Address();
+		Person person = new Person();
 
+		person.setFirstName("Albert");
+		person.setSecondName("Baranguer");
+		address.setPerson(person);
+		address.setCity("myCity");
+		address.setCountry("myCountry");
+		address.setDoor(1);
+		address.setFloor(2);
+		address.setNumber(3);
+		address.setStreet("myStreet");
+		address.setZipCode("myZipCode");
+
+		String retValue = restService.toUpperWithError(address);
+
+		assertThat(retValue).isNotNull();
 	}
 }

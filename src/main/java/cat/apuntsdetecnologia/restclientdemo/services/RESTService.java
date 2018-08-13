@@ -2,6 +2,7 @@ package cat.apuntsdetecnologia.restclientdemo.services;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,7 +15,8 @@ public class RESTService {
 
 	private static final String URL_DEMO = "http://localhost:8080/RESTServerDemo/demo?first=%s&second=%s";
 	private static final String URL_TOUPPER = "http://localhost:8080/RESTServerDemo/toupper";
-
+	private static final String URL_TOUPPERWITHERROR = "http://localhost:8080/RESTServerDemo/toupperwitherror";
+	
 	public Address demo(String firstName, String secondName) {
 		RestTemplate restTemplate = new RestTemplate();
 
@@ -23,7 +25,22 @@ public class RESTService {
 		return address;
 	}
 
-	public Address toupper(Address address) {
+	public Address toUpper(Address address) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Accept", MediaType.APPLICATION_XML_VALUE);
+		headers.setContentType(MediaType.APPLICATION_XML);
+
+		// HttpEntity<Address> requestBody = new HttpEntity<>(address, headers);
+		HttpEntity<Address> requestBody = new HttpEntity<>(address);
+
+		Address addressToUpper = restTemplate.postForObject(URL_TOUPPER, requestBody, Address.class);
+
+		return addressToUpper;
+	}
+	
+	public String toUpperWithError(Address address) {
 		RestTemplate restTemplate = new RestTemplate();
 
 		// HttpHeaders headers = new HttpHeaders();
@@ -33,9 +50,9 @@ public class RESTService {
 		// HttpEntity<Address> requestBody = new HttpEntity<>(address, headers);
 		HttpEntity<Address> requestBody = new HttpEntity<>(address);
 
-		Address addressToUpper = restTemplate.postForObject(URL_TOUPPER, requestBody, Address.class);
+		String retValue = restTemplate.postForObject(URL_TOUPPERWITHERROR, requestBody, String.class);
 
-		return addressToUpper;
+		return retValue;
 	}
 
 }
