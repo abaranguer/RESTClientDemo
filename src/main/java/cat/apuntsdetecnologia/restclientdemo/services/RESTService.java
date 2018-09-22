@@ -20,9 +20,7 @@ public class RESTService {
 	public Address demo(String firstName, String secondName) {
 		RestTemplate restTemplate = new RestTemplate();
 
-		Address address = restTemplate.getForObject(String.format(URL_DEMO, firstName, secondName), Address.class);
-
-		return address;
+		return restTemplate.getForObject(String.format(URL_DEMO, firstName, secondName), Address.class);
 	}
 
 	public Address toUpper(Address address) {
@@ -32,27 +30,17 @@ public class RESTService {
 		headers.add("Accept", MediaType.APPLICATION_XML_VALUE);
 		headers.setContentType(MediaType.APPLICATION_XML);
 
-		// HttpEntity<Address> requestBody = new HttpEntity<>(address, headers);
 		HttpEntity<Address> requestBody = new HttpEntity<>(address);
 
-		Address addressToUpper = restTemplate.postForObject(URL_TOUPPER, requestBody, Address.class);
-
-		return addressToUpper;
+		return restTemplate.postForObject(URL_TOUPPER, requestBody, Address.class);
 	}
 	
 	public String toUpperWithError(Address address) {
 		RestTemplate restTemplate = new RestTemplate();
 
-		// HttpHeaders headers = new HttpHeaders();
-		// headers.add("Accept", MediaType.APPLICATION_XML_VALUE);
-		// headers.setContentType(MediaType.APPLICATION_XML);
-
-		// HttpEntity<Address> requestBody = new HttpEntity<>(address, headers);
 		HttpEntity<Address> requestBody = new HttpEntity<>(address);
 
-		String retValue = restTemplate.postForObject(URL_TOUPPERWITHERROR, requestBody, String.class);
-
-		return retValue;
+		return  restTemplate.postForObject(URL_TOUPPERWITHERROR, requestBody, String.class);
 	}
 
 }
